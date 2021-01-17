@@ -174,7 +174,7 @@ public class TicketResourceIT {
             .andExpect(jsonPath("$.[*].dueDate").value(hasItem(DEFAULT_DUE_DATE.toString())))
             .andExpect(jsonPath("$.[*].done").value(hasItem(DEFAULT_DONE.booleanValue())));
     }
-    
+
     @SuppressWarnings({"unchecked"})
     public void getAllTicketsWithEagerRelationshipsIsEnabled() throws Exception {
         when(ticketRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -270,6 +270,7 @@ public class TicketResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(roles = {"USER", "ADMIN"}) // User with USER and ADMIN role
     public void deleteTicket() throws Exception {
         // Initialize the database
         ticketRepository.saveAndFlush(ticket);
